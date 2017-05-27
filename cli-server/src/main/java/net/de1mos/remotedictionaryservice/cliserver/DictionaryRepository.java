@@ -1,3 +1,5 @@
+package net.de1mos.remotedictionaryservice.cliserver;
+
 import java.util.Collections;
 import java.util.Map;
 import java.util.Set;

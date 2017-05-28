@@ -1,4 +1,6 @@
 rootProject.name = 'remote-dictionary-service'
 
 include 'cli-server'
+include 'api'
+include 'cli-client'
 

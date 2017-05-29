@@ -8,13 +8,13 @@ import org.apache.xmlrpc.server.RequestProcessorFactoryFactory;
 /**
  * Factory to store one instance of Dictionary service implementation
  */
-public class DictonaryRPCServiceProcessorFactoryFactory
+public class DictionaryRECServiceProcessorFactoryFactory
         implements RequestProcessorFactoryFactory {
     private final DictionaryRPCService service;
 
     private final RequestProcessorFactoryFactory.RequestProcessorFactory factory = new DictionaryRPCServiceImplProcessorFactory();
 
-    public DictonaryRPCServiceProcessorFactoryFactory(DictionaryRPCService service) {
+    public DictionaryRECServiceProcessorFactoryFactory(DictionaryRPCService service) {
         this.service = service;
     }
 

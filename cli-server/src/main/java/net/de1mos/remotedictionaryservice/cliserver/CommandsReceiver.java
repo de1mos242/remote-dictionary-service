@@ -15,11 +15,13 @@ public class CommandsReceiver {
         this.queue = queue;
     }
 
-    public void receiveCommand(DictionaryCommand command) {
+    public void receiveCommand(DictionaryCommand command) throws InterruptedException {
         queue.addToQueue(command);
     }
 
-    public void receiveCommands(List<DictionaryCommand> commandList) {
-        commandList.forEach(this::receiveCommand);
+    public void receiveCommands(List<DictionaryCommand> commandList) throws InterruptedException {
+        for (DictionaryCommand dictionaryCommand : commandList) {
+            receiveCommand(dictionaryCommand);
+        }
     }
 }

@@ -19,7 +19,7 @@ public class CommandQueueTest {
     }
 
     @Test
-    public void testQueueShouldReturnCommnandsInFIFO() {
+    public void testQueueShouldReturnCommandsInFIFO() throws InterruptedException {
         queue.addToQueue(new AddDictionaryCommand("word1", "trans1"));
         queue.addToQueue(new RemoveDictionaryCommand("word1", "trans1"));
         queue.addToQueue(new AddDictionaryCommand("word2", "trans2"));
@@ -35,8 +35,5 @@ public class CommandQueueTest {
         DictionaryCommand third = queue.getNextCommand();
         assertThat(third, is(instanceOf(AddDictionaryCommand.class)));
         assertThat(third.getWord(), equalTo("word2"));
-
-        DictionaryCommand emptyQueue = queue.getNextCommand();
-        assertThat(emptyQueue, nullValue());
     }
 }

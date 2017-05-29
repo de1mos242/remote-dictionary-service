@@ -2,25 +2,35 @@ package net.de1mos.remotedictionaryservice.cliserver;
 
 import net.de1mos.remotedictionaryservice.cliserver.commands.DictionaryCommand;
 
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.concurrent.BlockingQueue;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Commands queue to modify dictionary repository
  */
 public class CommandQueue {
 
-    private Queue<DictionaryCommand> internalQueue;
+    private BlockingQueue<DictionaryCommand> internalQueue;
 
     public CommandQueue() {
-        this.internalQueue = new ConcurrentLinkedDeque<>();
+        this.internalQueue = new LinkedBlockingQueue<>();
     }
 
-    public void addToQueue(DictionaryCommand command) {
-        internalQueue.add(command);
+    /***
+     * Add a command to queue
+     * @param command a command to execute
+     * @throws InterruptedException while put into blocking queue
+     */
+    public void addToQueue(DictionaryCommand command) throws InterruptedException {
+        internalQueue.put(command);
     }
 
-    public DictionaryCommand getNextCommand() {
-        return internalQueue.poll();
+    /***
+     * Blocking take an element from queue
+     * @return next command or wait when it will appear
+     * @throws InterruptedException while take from blocking queue
+     */
+    public DictionaryCommand getNextCommand() throws InterruptedException {
+        return internalQueue.take();
     }
 }

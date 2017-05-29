@@ -8,7 +8,7 @@ repositories {
 
 jar {
     manifest {
-        attributes 'Main-Class': "net.de1mos.remotedictionaryservice.cliserver.rpc.CliServer"
+        attributes 'Main-Class': "net.de1mos.remotedictionaryservice.cliserver.rpc.CliServerEntryPoint"
     }
 
     from {

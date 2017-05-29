@@ -26,7 +26,6 @@ public class CommandsReceiverTest {
         receiver.receiveCommand(new AddDictionaryCommand("word1", "trans1"));
 
         assertThat(queue.getNextCommand(), is(instanceOf(AddDictionaryCommand.class)));
-        assertThat(queue.getNextCommand(), nullValue());
     }
 
     @Test
@@ -38,7 +37,6 @@ public class CommandsReceiverTest {
 
         assertThat(queue.getNextCommand(), is(instanceOf(AddDictionaryCommand.class)));
         assertThat(queue.getNextCommand(), is(instanceOf(RemoveDictionaryCommand.class)));
-        assertThat(queue.getNextCommand(), nullValue());
     }
 
 }

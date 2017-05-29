@@ -11,7 +11,7 @@ repositories {
 
 jar {
     manifest {
-        attributes 'Main-Class': "net.de1mos.remotedictionaryservice.cliclient.CliClient"
+        attributes 'Main-Class': "net.de1mos.remotedictionaryservice.cliclient.CliClientEntryPoint"
     }
 
     from {

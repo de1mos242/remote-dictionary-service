@@ -7,6 +7,7 @@ import org.apache.xmlrpc.client.XmlRpcClient;
 import org.apache.xmlrpc.client.XmlRpcClientConfigImpl;
 import org.apache.xmlrpc.client.util.ClientFactory;
 
+import java.net.MalformedURLException;
 import java.net.URL;
 
 /**
@@ -15,24 +16,25 @@ import java.net.URL;
 public class CliClient {
     private static final Logger logger = LogManager.getLogger(CliClient.class);
 
-    public static void main(String[] args) throws Exception {
-        String word = "hehey";
-        String translation = "Привееет";
-        logger.info("send add {} -> {}", word, translation);
+    private String address;
 
+    private int port;
+
+    public CliClient(String address, int port) {
+        this.address = address;
+        this.port = port;
+    }
+
+    public DictionaryRPCService prepareRpcClient() throws MalformedURLException {
         XmlRpcClientConfigImpl config = new XmlRpcClientConfigImpl();
-        config.setServerURL(new URL("http://127.0.0.1:8080/xmlrpc"));
+        config.setServerURL(new URL(String.format("http://%s:%s/xmlrpc", address, port)));
         config.setEnabledForExtensions(true);
         config.setConnectionTimeout(60 * 1000);
         config.setReplyTimeout(60 * 1000);
         XmlRpcClient client = new XmlRpcClient();
         client.setConfig(config);
         ClientFactory factory = new ClientFactory(client);
-        DictionaryRPCService dictionaryRPCService = (DictionaryRPCService) factory.newInstance(DictionaryRPCService.class);
-
-        dictionaryRPCService.addTranslation(word, translation);
-        dictionaryRPCService.removeTranslation(word, translation);
-        dictionaryRPCService.getTranslations(word);
+        return (DictionaryRPCService) factory.newInstance(DictionaryRPCService.class);
     }
 
 }

@@ -20,15 +20,11 @@ public class CommandsExecutor {
 
     /***
      * Apply next command from queue to dictionary
-     * @return true if there was a command in queue and it was applied, false otherwise
+     * Queue is blocking, so apply will blocked until command is appeared in another thread
      */
-    public boolean ApplyNextCommand() {
+    public void ApplyNextCommand() throws InterruptedException {
         DictionaryCommand command = queue.getNextCommand();
-        if (command != null) {
-            applyCommand(command);
-            return true;
-        }
-        return false;
+        applyCommand(command);
     }
 
     private void applyCommand(DictionaryCommand command) {

@@ -7,7 +7,7 @@ import java.util.List;
  */
 public interface DictionaryRPCService {
 
-    void addTranslation(String word, String translation);
+    void addTranslations(String word, List<String> translations);
 
     void removeTranslation(String word, String translation);
 

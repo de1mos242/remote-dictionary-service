@@ -4,6 +4,8 @@ import net.de1mos.remotedictionaryservice.api.DictionaryRPCService;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -19,7 +21,6 @@ public class CliClientEntryPoint {
         logger.info("send add {} -> {}", word, translation);
 
 
-
         CliClient cliClient = new CliClient("127.0.0.1", 8080);
 
         int maxIterations = 1;
@@ -29,9 +30,9 @@ public class CliClientEntryPoint {
             maxIterations = Integer.parseInt(args[0]);
         }
 
-        for (int i = 0; i<maxIterations; i++) {
+        for (int i = 0; i < maxIterations; i++) {
             DictionaryRPCService dictionaryRPCService = cliClient.prepareRpcClient();
-            dictionaryRPCService.addTranslation(word, translation);
+            dictionaryRPCService.addTranslations(word, Collections.singletonList(translation));
             final List<String> translations = dictionaryRPCService.getTranslations(word);
             logger.info("translates for {} is {}", word, String.join(", ", translations));
             dictionaryRPCService.removeTranslation(word, translation);

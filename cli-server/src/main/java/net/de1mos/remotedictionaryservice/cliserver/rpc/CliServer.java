@@ -30,8 +30,12 @@ public class CliServer {
 
     public void shutdownServer() {
         logger.info("Shutting down server");
-        webServer.shutdown();
-        executionWorker.stopListen();
+        if (webServer != null) {
+            webServer.shutdown();
+        }
+        if (executionWorker != null) {
+            executionWorker.stopListen();
+        }
         logger.info("Server stopped");
     }
 
@@ -57,6 +61,7 @@ public class CliServer {
         logger.info("Starting server on {} port...", port);
 
         webServer.start();
+        logger.info("Server successfully started on {} port", port);
     }
 
     private void startExecutionWorker(CommandQueue commandQueue) {

@@ -28,9 +28,9 @@ public class DictionaryRPCServiceImpl implements DictionaryRPCService {
 
     @Override
     public void addTranslations(String word, List<String> translations) {
-        try {
-            logger.info("Receive add translations: {} -> [{}]", word, String.join(",", translations));
+        logger.info("Receive add translations: {} -> [{}]", word, String.join(",", translations));
 
+        try {
             for (String translation : translations) {
                 receiver.receiveCommand(new AddDictionaryCommand(word, translation));
             }
@@ -40,13 +40,24 @@ public class DictionaryRPCServiceImpl implements DictionaryRPCService {
     }
 
     @Override
-    public void removeTranslation(String word, String translation) {
+    public List<String> removeTranslations(String word, List<String> translations) {
+        List<String> notRemoved = new ArrayList<>();
+        logger.info("Receive remove translation: {} -> {}", word, translations);
+
         try {
-            logger.info("Receive remove translation: {} -> {}", word, translation);
-            receiver.receiveCommand(new RemoveDictionaryCommand(word, translation));
+            for (String translation : translations) {
+                boolean found = new ArrayList<>(dictionaryRepository.getTranslations(word)).contains(translation);
+                if (found) {
+                    receiver.receiveCommand(new RemoveDictionaryCommand(word, translation));
+                }
+                else {
+                    notRemoved.add(translation);
+                }
+            }
         } catch (InterruptedException e) {
             logger.info("Interrupt while receive remove translation");
         }
+        return notRemoved;
     }
 
     @Override

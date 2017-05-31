@@ -9,7 +9,7 @@ public interface DictionaryRPCService {
 
     void addTranslations(String word, List<String> translations);
 
-    void removeTranslation(String word, String translation);
+    List<String> removeTranslations(String word, List<String> translations);
 
     List<String> getTranslations(String word);
 }

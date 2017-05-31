@@ -4,7 +4,6 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.Arrays;
 import java.util.Collections;
 
 import static org.hamcrest.CoreMatchers.hasItem;
@@ -38,7 +37,19 @@ public class SimpleUseCaseIntegrationTest {
         client.prepareRpcClient().addTranslations("word1", Collections.singletonList("trans1"));
         assertThat(client.prepareRpcClient().getTranslations("word1"), hasItem("trans1"));
 
-        client.prepareRpcClient().removeTranslation("word1", "trans1");
+        client.prepareRpcClient().removeTranslations("word1", Collections.singletonList("trans1"));
         assertThat(client.prepareRpcClient().getTranslations("word1"), not(hasItem("trans1")));
+    }
+
+    @Test
+    public void testReturnOfRemoveResult() throws Exception {
+        assertThat(client.prepareRpcClient().removeTranslations("word1", Collections.singletonList("trans1")),
+                hasItem("trans1"));
+
+        client.prepareRpcClient().addTranslations("word1", Collections.singletonList("trans1"));
+        assertThat(client.prepareRpcClient().getTranslations("word1"), hasItem("trans1"));
+
+        assertThat(client.prepareRpcClient().removeTranslations("word1", Collections.singletonList("trans1")),
+                not(hasItem("trans1")));
     }
 }

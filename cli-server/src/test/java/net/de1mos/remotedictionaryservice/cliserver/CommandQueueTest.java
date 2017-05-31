@@ -6,8 +6,8 @@ import net.de1mos.remotedictionaryservice.cliserver.commands.RemoveDictionaryCom
 import org.junit.Before;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
+import static org.junit.Assert.assertThat;
 
 public class CommandQueueTest {
 

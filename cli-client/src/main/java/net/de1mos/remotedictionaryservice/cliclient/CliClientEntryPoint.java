@@ -53,8 +53,10 @@ public class CliClientEntryPoint {
                     break;
             }
         } catch (UndeclaredThrowableException e) {
-            printLine(String.format("Произошла ошибка при взимодействии с сервером: %s", e.getCause().getMessage()));
+            printLine(String.format("Произошла ошибка при взимодействии с сервером: %s",
+                    e.getCause().getMessage()));
         } catch (Exception e) {
+            printLine(e.getClass().getCanonicalName());
             printLine(String.format("Произошла ошибка при взимодействии с сервером: %s", e.getMessage()));
         }
     }

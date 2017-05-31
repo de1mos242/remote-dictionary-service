@@ -18,7 +18,7 @@ public class CommandsReceiverTest {
 
     @Before
     public void setUp() throws Exception {
-        queue = new CommandQueue();
+        queue = new CommandQueue(1000);
         receiver = new CommandsReceiver(queue);
     }
 

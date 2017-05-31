@@ -18,14 +18,17 @@ import java.io.IOException;
 public class CliServer {
 
     private static final Logger logger = LogManager.getLogger(CliServer.class);
+    public static final int DEFAULT_MAX_QUEUE_SIZE = 1000;
     private int port;
     private WebServer webServer;
     private CommandExecutorWorker executionWorker;
     private DictionaryRepository dictionaryRepository;
+    private int maxQueueSize;
 
     public CliServer(int port) {
         this.port = port;
         this.dictionaryRepository = new DictionaryRepository();
+        this.maxQueueSize = DEFAULT_MAX_QUEUE_SIZE;
     }
 
     public void shutdownServer() {
@@ -40,7 +43,7 @@ public class CliServer {
     }
 
     public void startWebServer() throws XmlRpcException, IOException {
-        final CommandQueue commandQueue = new CommandQueue();
+        final CommandQueue commandQueue = new CommandQueue(maxQueueSize);
         DictionaryRPCService service = getDictionaryRPCService(commandQueue);
 
         startExecutionWorker(commandQueue);

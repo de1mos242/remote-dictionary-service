@@ -1,6 +1,7 @@
 package net.de1mos.remotedictionaryservice.cliserver;
 
 import net.de1mos.remotedictionaryservice.cliserver.commands.DictionaryCommand;
+import net.de1mos.remotedictionaryservice.cliserver.exceptions.CommandQueueSizeLimitExceedException;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -12,8 +13,11 @@ public class CommandQueue {
 
     private BlockingQueue<DictionaryCommand> internalQueue;
 
-    public CommandQueue() {
+    private final int maxQueueSize;
+
+    public CommandQueue(int maxQueueSize) {
         this.internalQueue = new LinkedBlockingQueue<>();
+        this.maxQueueSize = maxQueueSize;
     }
 
     /***
@@ -22,6 +26,14 @@ public class CommandQueue {
      * @throws InterruptedException while put into blocking queue
      */
     public void addToQueue(DictionaryCommand command) throws InterruptedException {
+        final int currentSize = internalQueue.size();
+        if (currentSize >= maxQueueSize) {
+            throw new CommandQueueSizeLimitExceedException(
+                    String.format("Command queue size of %s exceed with %s",
+                        maxQueueSize,
+                        currentSize));
+        }
+
         internalQueue.put(command);
     }
 
